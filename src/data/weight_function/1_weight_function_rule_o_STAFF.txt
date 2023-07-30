@@ -1,2 +1,0 @@
-R_o(STAFF)(encr) = 10;
-R_c1(STAFF)(encr) = 10;
