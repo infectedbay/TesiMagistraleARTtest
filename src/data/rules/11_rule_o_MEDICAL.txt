@@ -1,0 +1,4 @@
+R_o(MEDICAL) = {
+type(cloud,edge),
+ANY({avail(VH),node(50)}),
+AT_LEAST(2,{encr(AES,3DES,DES),test(authA,authB),cert(certA,certB)})}

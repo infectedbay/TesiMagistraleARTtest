@@ -1,0 +1,5 @@
+R_o(RESEARCH) = {
+type(cloud,edge),
+ALL({encr(AES,3DES),test(authA,authB),cert(certA,certB)}),
+ANY({avail(VH,H,M),node(50,40,30)}),
+AT_MOST(2,{prov(prov1,prov2),type(cloud),cert(certA)})}

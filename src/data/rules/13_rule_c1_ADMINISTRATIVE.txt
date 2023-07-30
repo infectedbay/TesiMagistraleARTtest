@@ -1,0 +1,5 @@
+R_c1(ADMINISTRATIVE) = {
+type(cloud,edge),
+!loc(CHN),
+encr(AES,3DES),
+ANY({avail(VH,H,M),node(50,40,30)})}

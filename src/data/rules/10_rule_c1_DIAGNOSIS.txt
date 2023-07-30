@@ -1,0 +1,5 @@
+R_c1(DIAGNOSIS) = {
+type(cloud,edge),
+ALL({encr(3DES),loc(EU),test(authA,authB),cert(certA,certB)}),
+ANY({avail(VH),node(50)}),
+FORBIDDEN({cert(certB),test(authB)})}

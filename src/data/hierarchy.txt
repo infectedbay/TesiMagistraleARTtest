@@ -1,0 +1,7 @@
+STAFF : (R_o -> R_c1);
+PAYROLL : (R_o -> R_c1);
+PATIENT : (R_o -> R_c1 -> R_c2);
+DIAGNOSIS : (R_o -> R_c1);
+MEDICAL : (R_o);
+ADMINISTRATIVE : (R_o -> R_c1);
+RESEARCH : (R_o -> R_c1);

@@ -1,0 +1,4 @@
+R_c1(PATIENT) = {
+type(cloud,edge),
+ANY({avail(VH,H,M),node(50,40,30)}),
+ALL({!loc(-,CHN),test(authA,authB),encr(AES,3DES)})}

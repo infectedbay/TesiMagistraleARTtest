@@ -1,0 +1,3 @@
+R_o(ARCHIVE) = {
+type(cloud,edge),
+ALL({encr(AES,3DES),test(authA,authB),cert(certA,certB)})}

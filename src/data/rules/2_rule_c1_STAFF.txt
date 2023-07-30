@@ -1,0 +1,5 @@
+R_c1(STAFF) = {
+type(cloud,edge),
+ANY({avail(VH,H,M),node(50,40,30)}),
+ALL({loc(EU),!test(-),!cert(-),encr(DES,3DES,AES)}),
+IF ALL({type(edge)}) THEN ANY({!cert(certC)})}

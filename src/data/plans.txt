@@ -1,0 +1,10 @@
+p_1={prov1,cloud,EU,3DES,VH,authA,certA,-}
+p_2={prov1,cloud,US,DES,H,authB,certB,-}
+p_3={prov3,cloud,EU,3DES,M,authC,-,-}
+p_4={prov2,edge,EU,3DES,-,authA,certA,50}
+p_5={prov2,edge,US,DES,-,authB,certB,30}
+p_6={prov4,edge,EU,AES,-,authA,certC,40}
+p_7={prov1,cloud,EU,3DES,VH,authA,certA,-}
+p_8={prov3,cloud,EU,3DES,M,authC,-,-}
+p_9={prov2,edge,EU,3DES,-,authA,certA,50}
+p_10={prov4,edge,EU,AES,-,authA,certC,40}

@@ -1,0 +1,5 @@
+R_o(PAYROLL) = {
+type(cloud,edge),
+!loc(-),
+ANY({!avail(-),!node(-)}),
+FORBIDDEN({cert(-),test(-),encr(-)})}

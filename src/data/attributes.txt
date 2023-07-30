@@ -1,0 +1,8 @@
+prov={prov1,prov2,prov3,prov4,prov5}
+type={cloud,edge}
+loc={EU,US,CHN,AUS,-}
+encr={AES,3DES,DES,-}
+avail={VH,H,M,L,VL,-}
+test={authA,authB,authC,-}
+cert={certA,certB,certC,-}
+node={50,40,30,20,10,-}
