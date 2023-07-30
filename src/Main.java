@@ -26,6 +26,9 @@ public class Main {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    // True if u wanna print all possible solutions, false otherwise
+    public static final boolean ALLSOLUTION = false;
+
     // Rule list
     static final ArrayList<String> rules_list = new ArrayList<>() {{
         add("ALL");
@@ -141,7 +144,11 @@ public class Main {
 
     // Write python code for OR-Tools SAT-Solver
         System.out.println();
-        PythonART.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, globalRules, planCost, dataSpace);
+        if (ALLSOLUTION) {
+            PythonAllPossibleSolutions.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, globalRules, planCost, dataSpace);
+        } else {
+            PythonART.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, globalRules, planCost, dataSpace);
+        }
         System.out.println("To find the result using the SAT-Solver \n\t1. Install Google’s OR-Tools at the link : https://developers.google.com/optimization/install");
         System.out.println("\t2. Open CMD and paste the following commands");
         System.out.println("\t\tcd " + (file_python.getAbsolutePath().substring(0, file_python.getAbsolutePath().length() - file_python.getName().length())));

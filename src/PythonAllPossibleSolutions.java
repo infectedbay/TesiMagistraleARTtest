@@ -1,9 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
-public class PythonART {
+public class PythonAllPossibleSolutions {
     // this is used to write python file
     public static void writeFile(File file_python,
                                  LinkedHashMap<String, ArrayList<SetOfRules>> setOfRequirements,
