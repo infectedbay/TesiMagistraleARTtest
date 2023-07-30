@@ -27,7 +27,7 @@ public class Main {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     // True if u wanna print all possible solutions, false otherwise
-    public static final boolean ALLSOLUTION = false;
+    public static final boolean ALL_SOLUTION = true;
 
     // Rule list
     static final ArrayList<String> rules_list = new ArrayList<>() {{
@@ -144,7 +144,7 @@ public class Main {
 
     // Write python code for OR-Tools SAT-Solver
         System.out.println();
-        if (ALLSOLUTION) {
+        if (ALL_SOLUTION) {
             PythonAllPossibleSolutions.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, globalRules, planCost, dataSpace);
         } else {
             PythonART.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, globalRules, planCost, dataSpace);

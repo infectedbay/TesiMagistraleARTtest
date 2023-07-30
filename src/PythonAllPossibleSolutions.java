@@ -22,8 +22,53 @@ public class PythonAllPossibleSolutions {
         List<List<SetOfRules>> subsets_setofrules;
         ArrayList<SetOfRules> input;
 
+    // Set py_setOfRequirements
+        for (String data : setOfRequirements.keySet()) {
+            for (SetOfRules setR : setOfRequirements.get(data)) {
+                if (setR.getType().equals("o")) {
+                    py_setOfRequirements.put(setR, "Ro_" + data);
+                } else {
+                    py_setOfRequirements.put(setR, ("Rc" + setR.getIndex() + "_" + data));
+                }
+            }
+        }
+
+
     // LIBRARY
         p.println("from ortools.sat.python import cp_model\n");
+
+    // FOR PRINTING ALL SOLUTIONS
+        p.println("# Define a class for printing all possible solution");
+        p.println("class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback): \n");
+        p.println("    def __init__(self, variables):");
+        p.println("        cp_model.CpSolverSolutionCallback.__init__(self)");
+        p.println("        self.__variables = variables");
+        p.println("        self.__solution_count = 0\n");
+
+        p.println("    # Function for printing solutions");
+        p.println("    def on_solution_callback(self):");
+        p.println("        self.__solution_count += 1");
+        p.println("        for v in self.__variables:");
+        int ii = 0;
+        for (SetOfRules setR : py_setOfRequirements.keySet()) {
+            if(ii == 0) {
+                p.println("            if '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+            } else {
+                p.println("            elif '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+            }
+            ii=ii+1;
+        }
+        p.println("            elif '%s' % v == 'Total_Cost':");
+        p.println("                print('Total_Cost = %i' % self.Value(v))");
+
+
+        p.println("        print()\n");
+
+        p.println("    def solution_count(self):\n" +
+        "        return self.__solution_count");
+
 
     // MAIN
         p.println("def main():\n" +
@@ -34,11 +79,6 @@ public class PythonAllPossibleSolutions {
         p.println("    # Variables");
         for (String data : setOfRequirements.keySet()) {
             for (SetOfRules setR : setOfRequirements.get(data)) {
-                if(setR.getType().equals("o")) {
-                    py_setOfRequirements.put(setR, "Ro_" + data);
-                } else {
-                    py_setOfRequirements.put(setR, ("Rc" + setR.getIndex() + "_" + data));
-                }
                 p.print("    " +  py_setOfRequirements.get(setR) + " = model.NewIntVarFromDomain(cp_model. Domain.FromIntervals([");
                 for (String plan : setOfAcceptablePlans.get(setR)) {
                     p.print("["+plan.substring(2)+"]");
@@ -271,10 +311,31 @@ public class PythonAllPossibleSolutions {
             }
         }
 
+    // Create variable to print total cost
+        p.println("    # Total Cost");
+        p.println("    Total_Cost = model.NewIntVar(0, 1000000000, 'Total_Cost')");
+        p.print("    model.Add(Total_Cost == (");
+        int j = 0;
+        for (String data : setOfRequirements.keySet()) {
+            int i = 0;
+            for (SetOfRules setR : setOfRequirements.get(data)) {
+                if (j == setOfRequirements.keySet().size() - 1 &&
+                        i == setOfRequirements.get(data).size() - 1) {
+                    p.print("(C_" + py_setOfRequirements.get(setR) + " * " + dataSpace.get(data)+ ")");
+                } else {
+                    p.print("(C_" + py_setOfRequirements.get(setR) + " * " + dataSpace.get(data)+ ") + ");
+                }
+                i=i+1;
+            }
+            j=j+1;
+        }
+        p.println("))");
+        p.println();
+
     // OBJECTIVE FUNCTION
         p.println("    # Objective Function");
         p.print("    model.Minimize(");
-        int j = 0;
+        j = 0;
         for (String data : setOfRequirements.keySet()) {
             int i = 0;
             for (SetOfRules setR : setOfRequirements.get(data)) {
@@ -293,23 +354,21 @@ public class PythonAllPossibleSolutions {
 
     // CREATE A SOLVER
         p.println("    # Creates a solver and solves the model.");
-        p.println("    solver = cp_model.CpSolver()\n" +
-                "    status = solver.Solve(model)\n");
-
-    // PRINT SOLUTION
-        p.println("    if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:");
-        p.println("        print('\\nPlans for Allocation')");
-        for (String data : setOfRequirements.keySet()) {
-            for (SetOfRules setR : setOfRequirements.get(data)) {
-                p.print("        print('    "+setR.printRuleName()+" = ");
-                p.print("p_%i");
-                p.print("' % (");
-                p.print("solver.Value("+ py_setOfRequirements.get(setR) +")");
-                p.println("))");
-            }
+        p.print("    solver = cp_model.CpSolver()\n" +
+                "    solution_printer = VarArraySolutionPrinter([");
+        int i = 0;
+        for (SetOfRules setR : py_setOfRequirements.keySet()) {
+            i = i + 1;
+            p.print(py_setOfRequirements.get(setR) + ((py_setOfRequirements.size() == i) ?
+                    ", Total_Cost])\n" : (", " + ((i % 4 == 0) ? "\n        " : ""))));
         }
-        p.println("    else:\n" +
-                "        print('    No solution found.')\n");
+
+        p.println("    # Enumerate all solutions.");
+        p.println("    solver.parameters.enumerate_all_solutions = True");
+        p.println("    # Solve.");
+        p.println("    status = solver.Solve(model, solution_printer)");
+        p.println("    print('Status = %s' % solver.StatusName(status))");
+        p.println("    print('Number of solutions found: %i' % solution_printer.solution_count())");
 
     // STATISTICS
         p.println();
