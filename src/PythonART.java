@@ -7,9 +7,7 @@ public class PythonART {
     public static void writeFile(File file_python,
                                  LinkedHashMap<String, ArrayList<SetOfRules>> setOfRequirements,
                                  LinkedHashMap<SetOfRules,ArrayList<String>> setOfAcceptablePlans,
-                                 LinkedHashMap<SetOfRules,ArrayList<String>> ranking,
                                  ArrayList<GlobalRule> globalRules,
-                                 LinkedHashMap<String,ArrayList<SetOfRules>> hierarchy,
                                  LinkedHashMap<String,Integer> planCost,
                                  LinkedHashMap<String,Integer> dataSpace) throws FileNotFoundException {
         System.out.println("file " + file_python.getName() + ": " + file_python.isFile());

@@ -125,9 +125,19 @@ public class Main {
         ReadPrintParse.print_plans(plans, "Set of Plans (P) includes :");
         System.out.println();
 
+    // Read plan cost
+        ReadPrintParse.read_plan_cost(file_plan_cost, planCost);
+        ReadPrintParse.print_plan_cost_data_space("Cost in euro of one gigabyte for each plan: ", planCost);
+        System.out.println();
+
     // Read data from da data.txt
         ReadPrintParse.read_data(dataOrderList, file_data);
         ReadPrintParse.print_data(dataOrderList, "Set of Data (D) includes :");
+        System.out.println();
+
+    // Read space required by data
+        ReadPrintParse.read_data_space(file_data_space, dataSpace);
+        ReadPrintParse.print_plan_cost_data_space("Storage space required by data", dataSpace);
         System.out.println();
 
     // Check if rules syntax is correct
@@ -159,141 +169,133 @@ public class Main {
         System.out.println(ANSI_GREEN + "The number of acceptable plans for each set of requirements is sufficient." + ANSI_RESET);
 
     // Identifies restricted domains according to definition 3.4.1 at pag.42
-        restricted_domain(restrictedDomain,attributes,setOfRequirements);
-        System.out.println();
-        ReadPrintParse.print_restricted_domain(restrictedDomain, attributeOrderList);
-        System.out.println();
-        System.out.println(ANSI_GREEN + "Restricted domain is defined according to definition 3.4.1" + ANSI_RESET);
+        //restricted_domain(restrictedDomain,attributes,setOfRequirements);
+        //System.out.println();
+        //ReadPrintParse.print_restricted_domain(restrictedDomain, attributeOrderList);
+        //System.out.println();
+        //System.out.println(ANSI_GREEN + "Restricted domain is defined according to definition 3.4.1" + ANSI_RESET);
 
     // Relation of preferences
     // If the preference relation is not defined for an attribute in a set of requirements, the default order is used.
     // Define set of preference relations defined in definition 3.4.2 pag 43
     // Calculate score function according definition 3.4.3 pag.46
     // Define weight function according definition 3.4.4. pag.47
-        preference_relation(preferences,restrictedDomain,attributes,
-                Objects.requireNonNull(folder_relations_of_preference.listFiles()),
-                Objects.requireNonNull(folder_list_of_weight_function.listFiles()));
-        System.out.println();
-        ReadPrintParse.print_preferences(preferences, attributeOrderList);
+        //preference_relation(preferences,restrictedDomain,attributes,
+        //        Objects.requireNonNull(folder_relations_of_preference.listFiles()),
+        //        Objects.requireNonNull(folder_list_of_weight_function.listFiles()));
+        //System.out.println();
+        //ReadPrintParse.print_preferences(preferences, attributeOrderList);
     // If everything is ok, the following definitions are checked
-        System.out.println();
-        System.out.println(ANSI_GREEN + "Set of preference relations is defined according to definition 3.4.2" + ANSI_RESET);
-        System.out.println(ANSI_GREEN + "Score function is defined according to definition 3.4.3" + ANSI_RESET);
-        System.out.println(ANSI_GREEN + "Weight function is defined according to definition 3.4.4" + ANSI_RESET);
+        //System.out.println();
+        //System.out.println(ANSI_GREEN + "Set of preference relations is defined according to definition 3.4.2" + ANSI_RESET);
+        //System.out.println(ANSI_GREEN + "Score function is defined according to definition 3.4.3" + ANSI_RESET);
+        //System.out.println(ANSI_GREEN + "Weight function is defined according to definition 3.4.4" + ANSI_RESET);
 
     // Choose whether you want to use DP-Dominance or D-Dominance
-        String dominantRelationship = "";
-        long start = 0;
-        long end = 0;
-        if(!TIME_TEST) {
-            while (!dominantRelationship.equals("D") && !dominantRelationship.equals("DP")) {
-                System.out.println();
-                dominantRelationship = pause("Choose the dominant relationship you prefer " +
-                        "\n\t Type \"DP\" for DP-Dominance or \"D\" for D-Dominance : ");
-            }
-        } else {
-            start = System.currentTimeMillis();
-            dominantRelationship = DOMINANCE;
-        }
+        //String dominantRelationship = "";
+        //long start = 0;
+        //long end = 0;
+        //if(!TIME_TEST) {
+        //    while (!dominantRelationship.equals("D") && !dominantRelationship.equals("DP")) {
+        //        System.out.println();
+        //        dominantRelationship = pause("Choose the dominant relationship you prefer " +
+        //                "\n\t Type \"DP\" for DP-Dominance or \"D\" for D-Dominance : ");
+        //    }
+        //} else {
+        //    start = System.currentTimeMillis();
+        //    dominantRelationship = DOMINANCE;
+        //}
 
     // The score vector is calculated for each acceptable plane for each set of requirements
-        score_vector_calculation(dominantRelationship,attributeOrderList,plans,setOfAcceptablePlans,preferences,scoreVectors);
-        System.out.println();
-        ReadPrintParse.print_score_vector(scoreVectors,attributes,dominantRelationship);
-        System.out.println(ANSI_GREEN + "Ideal plans are defined according to definition 3.4.5" + ANSI_RESET);
-        System.out.println(ANSI_GREEN + (dominantRelationship.equals("D") ? "S" : "Weighted s") + "core vectors are defined according to definition " + (dominantRelationship.equals("D") ? "3.4.6" : "3.4.8") + ANSI_RESET);
+        //score_vector_calculation(dominantRelationship,attributeOrderList,plans,setOfAcceptablePlans,preferences,scoreVectors);
+        //System.out.println();
+        //ReadPrintParse.print_score_vector(scoreVectors,attributes,dominantRelationship);
+        //System.out.println(ANSI_GREEN + "Ideal plans are defined according to definition 3.4.5" + ANSI_RESET);
+        //System.out.println(ANSI_GREEN + (dominantRelationship.equals("D") ? "S" : "Weighted s") + "core vectors are defined according to definition " + (dominantRelationship.equals("D") ? "3.4.6" : "3.4.8") + ANSI_RESET);
 
 
     // For each set of requirements, the classification based on the dominance relationship D-Dominance
     // (or the dominance relationship DP-Dominance) is calculated
-        calculate_ranking(scoreVectors,ranking);
-        System.out.println();
-        ReadPrintParse.print_ranking(scoreVectors,ranking,dominantRelationship);
-        System.out.println(ANSI_GREEN + "Ranking is calculated with " + (dominantRelationship.equals("D") ? "D-Dominance" : "DP-Dominance") +
-                " relationship defined according to definition " +
-                (dominantRelationship.equals("D") ? "3.4.7" : "3.4.9") + ANSI_RESET);
+        //calculate_ranking(scoreVectors,ranking);
+        //System.out.println();
+        //ReadPrintParse.print_ranking(scoreVectors,ranking,dominantRelationship);
+        //System.out.println(ANSI_GREEN + "Ranking is calculated with " + (dominantRelationship.equals("D") ? "D-Dominance" : "DP-Dominance") +
+        //        " relationship defined according to definition " +
+        //        (dominantRelationship.equals("D") ? "3.4.7" : "3.4.9") + ANSI_RESET);
 
-        if(RESULT || TIME_TEST) {
+    // Java Solver
+        //if(RESULT || TIME_TEST) {
         // Definition of allocation function without considering global requirements
-            allocation_function_no_global_rules(setOfRequirements, ranking, allocationFunction);
-            System.out.println();
-            ReadPrintParse.print_allocation_function("Allocation function (L) without considering global requirements : ",
-                    allocationFunction, dominantRelationship);
-            System.out.println();
+            //allocation_function_no_global_rules(setOfRequirements, ranking, allocationFunction);
+            //System.out.println();
+            //ReadPrintParse.print_allocation_function("Allocation function (L) without considering global requirements : ",
+            //        allocationFunction, dominantRelationship);
+            //System.out.println();
         // Check if solution found is correct for requirements
-            if (check_no_global_rules(allocationFunction))
-                System.out.println(ANSI_GREEN + "Allocation Function is defined according to definition 3.4.10" + ANSI_RESET);
-            else
-                stop("There is a set of requirements of type \"o\" that have allocated less than 1 plan or \n" +
-                        "There is a set of requirements of type \"c\" that have allocated less than n_p plans! \n");
-        }
+            //if (check_no_global_rules(allocationFunction))
+            //    System.out.println(ANSI_GREEN + "Allocation Function is defined according to definition 3.4.10" + ANSI_RESET);
+            //else
+            //    stop("There is a set of requirements of type \"o\" that have allocated less than 1 plan or \n" +
+            //            "There is a set of requirements of type \"c\" that have allocated less than n_p plans! \n");
+        //}
 
         // Read hierarchy from hierarchy.txt and print it (if is defined)
-            ReadPrintParse.read_hierarchy(file_hierarchy, hierarchy, setOfRequirements);
-            if (!hierarchy.isEmpty()) {
-                System.out.println();
-                ReadPrintParse.print_hierarchy(hierarchy);
-            }
+            //ReadPrintParse.read_hierarchy(file_hierarchy, hierarchy, setOfRequirements);
+            //if (!hierarchy.isEmpty()) {
+            //    System.out.println();
+            //    ReadPrintParse.print_hierarchy(hierarchy);
+            //}
 
         // Read global rules from global_rules.txt
             ReadPrintParse.read_global_rules(file_global_rules, globalRules, setOfRequirements);
             System.out.println();
             ReadPrintParse.print_global_rules(globalRules);
 
-        if (RESULT || TIME_TEST) {
+    // Java Solver Part 2
+        //if (RESULT || TIME_TEST) {
         // Definition of allocation function considering all global requirements of type ONLY_ONE
         // Check if exist a solution with ONLY_ONE rules
-            check_if_exist_a_solution_with_only_one_rules_with_print(setOfRequirements, ranking, globalRules);
-            // Check if exist a solution with ONLY_ONE rules without printing
-            //check_if_exist_a_solution_with_only_one_rules(setOfRequirements,ranking,globalRules);
-            System.out.println();
-            System.out.println(ANSI_GREEN + "Exist a solution considering ONLY_ONE RULES." + ANSI_RESET);
-            allocation_function_only_one(ranking, hierarchy, globalRules, allocationFunction);
-            System.out.println();
-            ReadPrintParse.print_allocation_function("Allocation function (L) considering only global requirements of type ONLY_ONE : ",
-                    allocationFunction, dominantRelationship);
-            System.out.println();
+            //check_if_exist_a_solution_with_only_one_rules_with_print(setOfRequirements, ranking, globalRules);
+            //// Check if exist a solution with ONLY_ONE rules without printing
+            ////check_if_exist_a_solution_with_only_one_rules(setOfRequirements,ranking,globalRules);
+            //System.out.println();
+            //System.out.println(ANSI_GREEN + "Exist a solution considering ONLY_ONE RULES." + ANSI_RESET);
+            //allocation_function_only_one(ranking, hierarchy, globalRules, allocationFunction);
+            //System.out.println();
+            //ReadPrintParse.print_allocation_function("Allocation function (L) considering only global requirements of type ONLY_ONE : ",
+            //        allocationFunction, dominantRelationship);
+            //System.out.println();
         // Check if solution found is correct for ONLY_ONE rules and for requirements
-            if (check_only_one(globalRules, allocationFunction) && check_no_global_rules(allocationFunction)) {
-                System.out.println(ANSI_GREEN + "Allocation function respects ONLY_ONE rules." + ANSI_RESET);
-            } else {
-                stop("Allocation function does not respect ONLY_ONE rules!");
-            }
+            //if (check_only_one(globalRules, allocationFunction) && check_no_global_rules(allocationFunction)) {
+            //    System.out.println(ANSI_GREEN + "Allocation function respects ONLY_ONE rules." + ANSI_RESET);
+            //} else {
+            //    stop("Allocation function does not respect ONLY_ONE rules!");
+            //}
 
         // Definition of allocation function considering all global requirements
-            allocation_function_global_rules(ranking, hierarchy, globalRules, allocationFunction);
-            System.out.println();
-            ReadPrintParse.print_allocation_function("Allocation function (L) considering global requirements : ", allocationFunction, dominantRelationship);
-            System.out.println();
+            //allocation_function_global_rules(ranking, hierarchy, globalRules, allocationFunction);
+            //System.out.println();
+            //ReadPrintParse.print_allocation_function("Allocation function (L) considering global requirements : ", allocationFunction, dominantRelationship);
+            //System.out.println();
         // Check if solution found is correct for all global rules and for requirements
-            if (check_all_rules(globalRules, allocationFunction))
-                System.out.println(ANSI_GREEN + "Allocation function respects all global rules. \n" +
-                        "Allocation is correct as defined in definition 3.5.2" + ANSI_RESET);
-            else
-                stop("Allocation function does not respect global rules!");
-        }
-
-    // Read plan cost
-        System.out.println();
-        ReadPrintParse.read_plan_cost(file_plan_cost, planCost);
-        ReadPrintParse.print_plan_cost_data_space("Cost in euro of one gigabyte for each plan: ", planCost);
-
-    // Read space required by data
-        System.out.println();
-        ReadPrintParse.read_data_space(file_data_space, dataSpace);
-        ReadPrintParse.print_plan_cost_data_space("Storage space required by data", dataSpace);
+            //if (check_all_rules(globalRules, allocationFunction))
+            //    System.out.println(ANSI_GREEN + "Allocation function respects all global rules. \n" +
+            //            "Allocation is correct as defined in definition 3.5.2" + ANSI_RESET);
+            //else
+            //    stop("Allocation function does not respect global rules!");
+        //}
 
     // Write python code for OR-Tools SAT-Solver
         if (!TIME_TEST) {
             System.out.println();
-            PythonART.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, ranking, globalRules, hierarchy, planCost, dataSpace);
+            PythonART.writeFile(file_python, setOfRequirements, setOfAcceptablePlans, globalRules, planCost, dataSpace);
             System.out.println("To find the result using the SAT-Solver \n\t1. Install Google’s OR-Tools at the link : https://developers.google.com/optimization/install");
             System.out.println("\t2. Open CMD and paste the following commands");
             System.out.println("\t\tcd " + (file_python.getAbsolutePath().substring(0, file_python.getAbsolutePath().length() - file_python.getName().length())));
             System.out.println("\t\tpython result.py");
         } else {
-            end = System.currentTimeMillis();
-            System.out.println("\nExecution time : " + ((double) (end - start) / (double) 1000) + "sec");
+            //end = System.currentTimeMillis();
+            //System.out.println("\nExecution time : " + ((double) (end - start) / (double) 1000) + "sec");
         }
 
     }
