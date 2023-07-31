@@ -1,5 +1,51 @@
 from ortools.sat.python import cp_model
 
+# Define a class for printing all possible solution
+class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback): 
+
+    def __init__(self, variables):
+        cp_model.CpSolverSolutionCallback.__init__(self)
+        self.__variables = variables
+        self.__solution_count = 0
+
+    # Function for printing solutions
+    def on_solution_callback(self):
+        self.__solution_count += 1
+        for v in self.__variables:
+            if '%s' % v == 'Ro_DIAGNOSIS':
+                print('Ro_DIAGNOSIS = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc1_DIAGNOSIS':
+                print('Rc1_DIAGNOSIS = p_%i' % self.Value(v))
+            elif '%s' % v == 'Ro_MEDICAL':
+                print('Ro_MEDICAL = p_%i' % self.Value(v))
+            elif '%s' % v == 'Ro_ADMINISTRATIVE':
+                print('Ro_ADMINISTRATIVE = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc1_ADMINISTRATIVE':
+                print('Rc1_ADMINISTRATIVE = p_%i' % self.Value(v))
+            elif '%s' % v == 'Ro_RESEARCH':
+                print('Ro_RESEARCH = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc1_RESEARCH':
+                print('Rc1_RESEARCH = p_%i' % self.Value(v))
+            elif '%s' % v == 'Ro_STAFF':
+                print('Ro_STAFF = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc1_STAFF':
+                print('Rc1_STAFF = p_%i' % self.Value(v))
+            elif '%s' % v == 'Ro_PAYROLL':
+                print('Ro_PAYROLL = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc1_PAYROLL':
+                print('Rc1_PAYROLL = p_%i' % self.Value(v))
+            elif '%s' % v == 'Ro_PATIENT':
+                print('Ro_PATIENT = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc1_PATIENT':
+                print('Rc1_PATIENT = p_%i' % self.Value(v))
+            elif '%s' % v == 'Rc2_PATIENT':
+                print('Rc2_PATIENT = p_%i' % self.Value(v))
+            elif '%s' % v == 'Total_Cost':
+                print('Total_Cost = %i' % self.Value(v))
+        print()
+
+    def solution_count(self):
+        return self.__solution_count
 def main():
     # Create the model.
     model = cp_model.CpModel()
@@ -629,32 +675,20 @@ def main():
     model.Add(Total_Cost == ((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500)))
 
     # Objective Function
-    model.Minimize((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500))
+    # model.Minimize((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500))
 
     # Creates a solver and solves the model.
     solver = cp_model.CpSolver()
-    status = solver.Solve(model)
-
-    if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-        print('\nPlans for Allocation')
-        print('    R_o(DIAGNOSIS) = p_%i' % (solver.Value(Ro_DIAGNOSIS)))
-        print('    R_c1(DIAGNOSIS) = p_%i' % (solver.Value(Rc1_DIAGNOSIS)))
-        print('    R_o(MEDICAL) = p_%i' % (solver.Value(Ro_MEDICAL)))
-        print('    R_o(ADMINISTRATIVE) = p_%i' % (solver.Value(Ro_ADMINISTRATIVE)))
-        print('    R_c1(ADMINISTRATIVE) = p_%i' % (solver.Value(Rc1_ADMINISTRATIVE)))
-        print('    R_o(RESEARCH) = p_%i' % (solver.Value(Ro_RESEARCH)))
-        print('    R_c1(RESEARCH) = p_%i' % (solver.Value(Rc1_RESEARCH)))
-        print('    R_o(STAFF) = p_%i' % (solver.Value(Ro_STAFF)))
-        print('    R_c1(STAFF) = p_%i' % (solver.Value(Rc1_STAFF)))
-        print('    R_o(PAYROLL) = p_%i' % (solver.Value(Ro_PAYROLL)))
-        print('    R_c1(PAYROLL) = p_%i' % (solver.Value(Rc1_PAYROLL)))
-        print('    R_o(PATIENT) = p_%i' % (solver.Value(Ro_PATIENT)))
-        print('    R_c1(PATIENT) = p_%i' % (solver.Value(Rc1_PATIENT)))
-        print('    R_c2(PATIENT) = p_%i' % (solver.Value(Rc2_PATIENT)))
-        print('    Total_Cost = %i ' % (solver.Value(Total_Cost)))
-    else:
-        print('    No solution found.')
-
+    solution_printer = VarArraySolutionPrinter([Ro_DIAGNOSIS, Rc1_DIAGNOSIS, Ro_MEDICAL, Ro_ADMINISTRATIVE, 
+        Rc1_ADMINISTRATIVE, Ro_RESEARCH, Rc1_RESEARCH, Ro_STAFF, 
+        Rc1_STAFF, Ro_PAYROLL, Rc1_PAYROLL, Ro_PATIENT, 
+        Rc1_PATIENT, Rc2_PATIENT, Total_Cost])
+    # Enumerate all solutions.
+    solver.parameters.enumerate_all_solutions = True
+    # Solve.
+    status = solver.Solve(model, solution_printer)
+    print('Status = %s' % solver.StatusName(status))
+    print('Number of solutions found: %i' % solution_printer.solution_count())
 
     # Statistics
     print('\nStatistics')

@@ -26,8 +26,15 @@ public class Main {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    // True if u wanna print all possible solutions, false otherwise
-    public static final boolean ALL_SOLUTION = false;
+    // True if you want to find all possible solutions, false if you just find the optimum.
+    public static final boolean ALL_SOLUTION = true;
+    // True if you want to print all possible solution, false if you just want to calculate how many they are.
+    public static final boolean PRINT_ALL_SOLUTION = true;
+    // True if you want to print all possible solution considering obj. function, false
+    // if you just want to calculate how many solutions exist without considering obj. funtion.
+    public static final boolean PRINT_SOLUTIONS_WITH_OBJ_FUNCTION = false;
+
+
 
     // Rule list
     static final ArrayList<String> rules_list = new ArrayList<>() {{

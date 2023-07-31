@@ -48,23 +48,23 @@ public class PythonAllPossibleSolutions {
         p.println("    # Function for printing solutions");
         p.println("    def on_solution_callback(self):");
         p.println("        self.__solution_count += 1");
-        p.println("        for v in self.__variables:");
-        int ii = 0;
-        for (SetOfRules setR : py_setOfRequirements.keySet()) {
-            if(ii == 0) {
-                p.println("            if '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
-                p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
-            } else {
-                p.println("            elif '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
-                p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+        if (Main.PRINT_ALL_SOLUTION) {
+            p.println("        for v in self.__variables:");
+            int ii = 0;
+            for (SetOfRules setR : py_setOfRequirements.keySet()) {
+                if (ii == 0) {
+                    p.println("            if '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                    p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+                } else {
+                    p.println("            elif '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                    p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+                }
+                ii = ii + 1;
             }
-            ii=ii+1;
+            p.println("            elif '%s' % v == 'Total_Cost':");
+            p.println("                print('Total_Cost = %i' % self.Value(v))");
+            p.println("        print()\n");
         }
-        p.println("            elif '%s' % v == 'Total_Cost':");
-        p.println("                print('Total_Cost = %i' % self.Value(v))");
-
-
-        p.println("        print()\n");
 
         p.println("    def solution_count(self):\n" +
         "        return self.__solution_count");
@@ -334,7 +334,11 @@ public class PythonAllPossibleSolutions {
 
     // OBJECTIVE FUNCTION
         p.println("    # Objective Function");
-        p.print("    model.Minimize(");
+        if (Main.PRINT_SOLUTIONS_WITH_OBJ_FUNCTION) {
+            p.print("    model.Minimize(");
+        } else {
+            p.print("    # model.Minimize(");
+        }
         j = 0;
         for (String data : setOfRequirements.keySet()) {
             int i = 0;
