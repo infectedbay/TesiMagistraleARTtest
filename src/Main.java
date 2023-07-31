@@ -27,7 +27,7 @@ public class Main {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     // True if u wanna print all possible solutions, false otherwise
-    public static final boolean ALL_SOLUTION = true;
+    public static final boolean ALL_SOLUTION = false;
 
     // Rule list
     static final ArrayList<String> rules_list = new ArrayList<>() {{

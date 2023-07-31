@@ -269,10 +269,31 @@ public class PythonART {
             }
         }
 
+    // Create variable to print total cost
+        p.println("    # Total Cost");
+        p.println("    Total_Cost = model.NewIntVar(0, 1000000000, 'Total_Cost')");
+        p.print("    model.Add(Total_Cost == (");
+        int j = 0;
+        for (String data : setOfRequirements.keySet()) {
+            int i = 0;
+            for (SetOfRules setR : setOfRequirements.get(data)) {
+                if (j == setOfRequirements.keySet().size() - 1 &&
+                        i == setOfRequirements.get(data).size() - 1) {
+                    p.print("(C_" + py_setOfRequirements.get(setR) + " * " + dataSpace.get(data)+ ")");
+                } else {
+                    p.print("(C_" + py_setOfRequirements.get(setR) + " * " + dataSpace.get(data)+ ") + ");
+                }
+                i=i+1;
+            }
+            j=j+1;
+        }
+        p.println("))");
+        p.println();
+
     // OBJECTIVE FUNCTION
         p.println("    # Objective Function");
         p.print("    model.Minimize(");
-        int j = 0;
+        j = 0;
         for (String data : setOfRequirements.keySet()) {
             int i = 0;
             for (SetOfRules setR : setOfRequirements.get(data)) {
@@ -306,6 +327,7 @@ public class PythonART {
                 p.println("))");
             }
         }
+        p.println("        print('    Total_Cost = %i ' % (solver.Value(Total_Cost)))");
         p.println("    else:\n" +
                 "        print('    No solution found.')\n");
 
