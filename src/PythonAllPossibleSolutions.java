@@ -49,30 +49,58 @@ public class PythonAllPossibleSolutions {
         p.println("    def on_solution_callback(self):");
         p.println("        self.__solution_count += 1");
         if (Main.PRINT_ALL_SOLUTION) {
-            p.println("        for v in self.__variables:");
-            int ii = 0;
-            for (SetOfRules setR : py_setOfRequirements.keySet()) {
-                if (ii == 0) {
-                    p.println("            if '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
-                    p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
-                } else {
-                    p.println("            elif '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
-                    p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+            if (Main.PRINT_TO_FILE) {
+                p.println("        with open('output.txt', 'a') as f:");
+                p.println("            for v in self.__variables:");
+                int ii = 0;
+                for (SetOfRules setR : py_setOfRequirements.keySet()) {
+                    if (ii == 0) {
+                        p.println("                if '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                        p.println("                    f.write('" + py_setOfRequirements.get(setR) + " = p_%i\\n' % self.Value(v))");
+                    } else {
+                        p.println("                elif '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                        p.println("                    f.write('" + py_setOfRequirements.get(setR) + " = p_%i\\n' % self.Value(v))");
+                    }
+                    ii = ii + 1;
                 }
-                ii = ii + 1;
+                p.println("                elif '%s' % v == 'Total_Cost':");
+                p.println("                    f.write('Total_Cost = %i\\n' % self.Value(v))");
+                p.println("            f.write('\\n')\n");
             }
-            p.println("            elif '%s' % v == 'Total_Cost':");
-            p.println("                print('Total_Cost = %i' % self.Value(v))");
-            p.println("        print()\n");
+            else {
+                p.println("        for v in self.__variables:");
+                int ii = 0;
+                for (SetOfRules setR : py_setOfRequirements.keySet()) {
+                    if (ii == 0) {
+                        p.println("            if '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                        p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+                    } else {
+                        p.println("            elif '%s' % v == '" + py_setOfRequirements.get(setR) + "':");
+                        p.println("                print('" + py_setOfRequirements.get(setR) + " = p_%i' % self.Value(v))");
+                    }
+                    ii = ii + 1;
+                }
+                p.println("            elif '%s' % v == 'Total_Cost':");
+                p.println("                print('Total_Cost = %i' % self.Value(v))");
+                p.println("        print()\n");
+            }
         }
 
         p.println("    def solution_count(self):\n" +
-        "        return self.__solution_count");
+        "        return self.__solution_count\n");
 
 
     // MAIN
-        p.println("def main():\n" +
-                "    # Create the model.\n" +
+        p.print("def main():\n");
+
+        if(Main.PRINT_TO_FILE) {
+            p.println(
+            "    rev = open('output.txt', 'w')\n" +
+            "    rev.write('')\n" +
+            "    rev.close()\n");
+        }
+
+        p.println("    # Create the model.\n" +
                 "    model = cp_model.CpModel()\n");
 
     // VARIABLES

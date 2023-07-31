@@ -11,42 +11,48 @@ class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback):
     # Function for printing solutions
     def on_solution_callback(self):
         self.__solution_count += 1
-        for v in self.__variables:
-            if '%s' % v == 'Ro_DIAGNOSIS':
-                print('Ro_DIAGNOSIS = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc1_DIAGNOSIS':
-                print('Rc1_DIAGNOSIS = p_%i' % self.Value(v))
-            elif '%s' % v == 'Ro_MEDICAL':
-                print('Ro_MEDICAL = p_%i' % self.Value(v))
-            elif '%s' % v == 'Ro_ADMINISTRATIVE':
-                print('Ro_ADMINISTRATIVE = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc1_ADMINISTRATIVE':
-                print('Rc1_ADMINISTRATIVE = p_%i' % self.Value(v))
-            elif '%s' % v == 'Ro_RESEARCH':
-                print('Ro_RESEARCH = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc1_RESEARCH':
-                print('Rc1_RESEARCH = p_%i' % self.Value(v))
-            elif '%s' % v == 'Ro_STAFF':
-                print('Ro_STAFF = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc1_STAFF':
-                print('Rc1_STAFF = p_%i' % self.Value(v))
-            elif '%s' % v == 'Ro_PAYROLL':
-                print('Ro_PAYROLL = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc1_PAYROLL':
-                print('Rc1_PAYROLL = p_%i' % self.Value(v))
-            elif '%s' % v == 'Ro_PATIENT':
-                print('Ro_PATIENT = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc1_PATIENT':
-                print('Rc1_PATIENT = p_%i' % self.Value(v))
-            elif '%s' % v == 'Rc2_PATIENT':
-                print('Rc2_PATIENT = p_%i' % self.Value(v))
-            elif '%s' % v == 'Total_Cost':
-                print('Total_Cost = %i' % self.Value(v))
-        print()
+        with open('output.txt', 'a') as f:
+            for v in self.__variables:
+                if '%s' % v == 'Ro_DIAGNOSIS':
+                    f.write('Ro_DIAGNOSIS = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc1_DIAGNOSIS':
+                    f.write('Rc1_DIAGNOSIS = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Ro_MEDICAL':
+                    f.write('Ro_MEDICAL = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Ro_ADMINISTRATIVE':
+                    f.write('Ro_ADMINISTRATIVE = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc1_ADMINISTRATIVE':
+                    f.write('Rc1_ADMINISTRATIVE = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Ro_RESEARCH':
+                    f.write('Ro_RESEARCH = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc1_RESEARCH':
+                    f.write('Rc1_RESEARCH = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Ro_STAFF':
+                    f.write('Ro_STAFF = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc1_STAFF':
+                    f.write('Rc1_STAFF = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Ro_PAYROLL':
+                    f.write('Ro_PAYROLL = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc1_PAYROLL':
+                    f.write('Rc1_PAYROLL = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Ro_PATIENT':
+                    f.write('Ro_PATIENT = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc1_PATIENT':
+                    f.write('Rc1_PATIENT = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Rc2_PATIENT':
+                    f.write('Rc2_PATIENT = p_%i\n' % self.Value(v))
+                elif '%s' % v == 'Total_Cost':
+                    f.write('Total_Cost = %i\n' % self.Value(v))
+            f.write('\n')
 
     def solution_count(self):
         return self.__solution_count
+
 def main():
+    rev = open('output.txt', 'w')
+    rev.write('')
+    rev.close()
+
     # Create the model.
     model = cp_model.CpModel()
 
@@ -675,7 +681,7 @@ def main():
     model.Add(Total_Cost == ((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500)))
 
     # Objective Function
-    # model.Minimize((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500))
+    model.Minimize((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500))
 
     # Creates a solver and solves the model.
     solver = cp_model.CpSolver()
