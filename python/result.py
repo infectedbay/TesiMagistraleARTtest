@@ -681,7 +681,7 @@ def main():
     model.Add(Total_Cost == ((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500)))
 
     # Objective Function
-    model.Minimize((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500))
+    # model.Minimize((C_Ro_DIAGNOSIS * 1000) + (C_Rc1_DIAGNOSIS * 1000) + (C_Ro_MEDICAL * 250) + (C_Ro_ADMINISTRATIVE * 200) + (C_Rc1_ADMINISTRATIVE * 200) + (C_Ro_RESEARCH * 300) + (C_Rc1_RESEARCH * 300) + (C_Ro_STAFF * 100) + (C_Rc1_STAFF * 100) + (C_Ro_PAYROLL * 100) + (C_Rc1_PAYROLL * 100) + (C_Ro_PATIENT * 500) + (C_Rc1_PATIENT * 500) + (C_Rc2_PATIENT * 500))
 
     # Creates a solver and solves the model.
     solver = cp_model.CpSolver()

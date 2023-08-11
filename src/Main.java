@@ -32,11 +32,9 @@ public class Main {
     public static final boolean PRINT_ALL_SOLUTION = true;
     // True if you want to print all possible solution considering obj. function, false
     // if you just want to calculate how many solutions exist without considering obj. funtion.
-    public static final boolean PRINT_SOLUTIONS_WITH_OBJ_FUNCTION = true;
-    // If you want to print result into \python\output.txt
+    public static final boolean PRINT_SOLUTIONS_WITH_OBJ_FUNCTION = false;
+    // If you want to print all possible solutions into \python\output.txt
     public static final boolean PRINT_TO_FILE = true;
-
-
 
     // Rule list
     static final ArrayList<String> rules_list = new ArrayList<>() {{
