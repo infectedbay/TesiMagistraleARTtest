@@ -15,7 +15,6 @@ public class PythonART {
         PrintWriter p = new PrintWriter(file_python);
 
         LinkedHashMap<SetOfRules, String> py_setOfRequirements = new LinkedHashMap<>();
-        List<List<String>> subsets_string;
         ArrayList<String> temp;
         List<List<SetOfRules>> subsets_setofrules;
         ArrayList<SetOfRules> input;
