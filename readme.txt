@@ -76,7 +76,7 @@ Finally, the last section "RESULT" explain how to get the final result.
             ...
         resource={m}
 
-MAIN
+--- MAIN
     This is the main class where all structures are defined and all inputs are stored.
     This program first reads the input files and stores the read data.
     Then identify acceptable plans for each original copy or copy of a resource.
@@ -84,7 +84,7 @@ MAIN
     Finally, it is called the "write" method that generates the python file which allows you to identify plans for
     effective allocation.
 
-RESULT
+--- RESULT
     To find the result using the SAT-Solver
     	1. Install Google’s OR-Tools at the link : https://developers.google.com/optimization/install
     	2. Open CMD and paste the following commands
